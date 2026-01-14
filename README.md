@@ -1,36 +1,175 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CUSTOS 1.0 - School Management System
 
-## Getting Started
+A comprehensive school management system with five user roles, AI-powered features, and white-label customization.
 
-First, run the development server:
+## 🚀 Features
+
+### User Roles
+
+- **Super Admin**: Complete system control, analytics, and user management
+- **Sub-Admin**: Daily operations management (limited permissions)
+- **Teacher**: Lesson planning, assignment management, and student tracking
+- **Student**: Homework completion, AI doubt solver, and progress tracking
+- **Parent**: Monitor children's performance and communicate with teachers
+
+### Key Capabilities
+
+- 🤖 AI-powered lesson plan generation
+- 📊 Adaptive question generation (60/40 weak/strong topic split)
+- 📈 Pattern analysis for student performance
+- 💬 Syllabus-bound AI doubt solver
+- 🎨 White-label theming per school
+- 📅 Calendar and timetable management
+- 📢 Announcements and communication system
+- 🏆 Gamification with points and rewards
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 (App Router)
+- **Database**: MongoDB with Mongoose
+- **Authentication**: NextAuth.js
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+
+## 📦 Installation
+
+1. **Clone and install dependencies**:
+
+```bash
+npm install
+```
+
+2. **Set up environment variables**:
+   Copy `.env.example` to `.env.local` and update values:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/custos
+NEXTAUTH_SECRET=your-secret-key
+NEXTAUTH_URL=http://localhost:3000
+```
+
+3. **Start MongoDB** (if running locally):
+
+```bash
+# Make sure MongoDB is running on port 27017
+```
+
+4. **Initialize the database**:
+
+```bash
+# Start the dev server first
+npm run dev
+
+# Then visit this URL in your browser:
+# http://localhost:3000/api/setup
+```
+
+This will create:
+
+- A demo school
+- Test users for all 5 roles
+
+## 🔑 Demo Credentials
+
+After running the setup, use these credentials to login:
+
+| Role        | Email               | Password    |
+| ----------- | ------------------- | ----------- |
+| Super Admin | superadmin@demo.com | password123 |
+| Sub-Admin   | subadmin@demo.com   | password123 |
+| Teacher     | teacher@demo.com    | password123 |
+| Student     | student@demo.com    | password123 |
+| Parent      | parent@demo.com     | password123 |
+
+## 🚀 Running the Application
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` and you'll be redirected to the login page.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+custos/
+├── app/                      # Next.js App Router
+│   ├── (auth)/              # Authentication routes
+│   ├── super-admin/         # Super Admin dashboard
+│   ├── sub-admin/           # Sub-Admin dashboard
+│   ├── teacher/             # Teacher dashboard
+│   ├── student/             # Student dashboard
+│   ├── parent/              # Parent dashboard
+│   └── api/                 # API routes
+├── components/              # Reusable components
+├── lib/                     # Utilities
+│   ├── db.ts               # MongoDB connection
+│   ├── auth.ts             # NextAuth config
+│   └── ai.ts               # AI service (placeholders)
+├── models/                  # Mongoose schemas
+└── types/                   # TypeScript definitions
+```
 
-## Learn More
+## 🎯 Next Steps
 
-To learn more about Next.js, take a look at the following resources:
+### Immediate Tasks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Build module pages** for each role (Manage, Reports, Calendar, etc.)
+2. **Implement API routes** for CRUD operations
+3. **Add real AI integration** (replace placeholders in `lib/ai.ts`)
+4. **Create forms** for user management, class creation, etc.
+5. **Build the question pattern system** for adaptive learning
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### AI Integration
 
-## Deploy on Vercel
+Replace placeholder functions in `lib/ai.ts` with real API calls:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- OpenAI GPT-4 for lesson plans and question generation
+- Google Gemini for doubt solver
+- Add your API keys to `.env.local`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### White-label Customization
+
+- Add school settings page for Super Admin
+- Implement dynamic theming based on school colors
+- Add logo upload functionality
+
+## 📚 Database Models
+
+- **School**: White-label settings
+- **User**: All 5 roles with role-specific fields
+- **Class**: Classes and sections
+- **Subject**: Subjects with syllabus content
+- **LessonPlan**: AI-generated daily plans
+- **Question**: Questions with pattern metadata
+- **Test**: Daily/Weekly/Lesson-wise tests
+- **Submission**: Student answers and scores
+- **Post**: Announcements
+- **Event**: Calendar events and schedules
+- **Feedback**: Teacher-student communication
+- **Message**: Parent-teacher messaging
+- **Notification**: Alerts and reminders
+
+## 🔒 Security
+
+- Password hashing with bcrypt
+- JWT-based sessions
+- Role-based route protection
+- Middleware authentication checks
+
+## 📄 License
+
+MIT License - feel free to use for your school!
+
+## 🤝 Contributing
+
+This is a foundational build. Contributions welcome for:
+
+- Additional features
+- UI improvements
+- Performance optimizations
+- Bug fixes
+
+---
+
+**Built with ❤️ for schools worldwide**
