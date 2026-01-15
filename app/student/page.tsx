@@ -1,97 +1,122 @@
-import Link from 'next/link';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import GlassIcons from '@/components/ui/glass-icons';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
+import { Calendar, ClipboardList, MessageCircle, Trophy, Flame, Star, CheckCircle } from 'lucide-react';
 
 export default function StudentDashboard() {
+  const router = useRouter();
+
   const modules = [
-    {
-      title: 'Calendar',
-      description: 'View your timetable and events',
-      icon: '📅',
-      href: '/student/calendar',
-      color: 'from-purple-500 to-purple-600',
-    },
-    {
-      title: 'Daily Work',
-      description: 'Complete your homework and tests',
-      icon: '📝',
-      href: '/student/daily-work',
-      color: 'from-blue-500 to-blue-600',
-    },
-    {
-      title: 'AI Doubt Solver',
-      description: 'Get help with your questions',
-      icon: '🤖',
-      href: '/student/ai-doubt-solver',
-      color: 'from-green-500 to-green-600',
-    },
-    {
-      title: 'Reports & Points',
-      description: 'View your performance and rewards',
-      icon: '🏆',
-      href: '/student/reports',
-      color: 'from-orange-500 to-orange-600',
-    },
+    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/student/calendar' },
+    { icon: <ClipboardList className="w-6 h-6" />, color: 'blue', label: 'Daily Work', href: '/student/daily-work' },
+    { icon: <MessageCircle className="w-6 h-6" />, color: 'green', label: 'AI Tutor', href: '/student/ai-doubt-solver' },
+    { icon: <Trophy className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/student/reports' },
+  ];
+
+  const glassItems = modules.map(m => ({
+    ...m,
+    onClick: () => router.push(m.href)
+  }));
+
+  const gamificationStats = [
+    { label: 'Learning Streak', value: '7 days', icon: <Flame className="w-5 h-5" />, color: 'text-orange-400', bg: 'bg-orange-500/20' },
+    { label: 'Total Points', value: '2,450', icon: <Star className="w-5 h-5" />, color: 'text-yellow-400', bg: 'bg-yellow-500/20' },
+    { label: 'Completed', value: '85%', icon: <CheckCircle className="w-5 h-5" />, color: 'text-green-400', bg: 'bg-green-500/20' },
+  ];
+
+  const pendingWork = [
+    { subject: 'Mathematics', type: 'MCQ Quiz', questions: 10, dueIn: '2 hours' },
+    { subject: 'Physics', type: 'Theory Questions', questions: 5, dueIn: '1 day' },
+    { subject: 'English', type: 'Essay Writing', questions: 1, dueIn: '2 days' },
   ];
 
   return (
-    <div>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
-          Student Dashboard
-        </h2>
-        <p className="text-gray-600">
-          Complete your work, ask questions, and track your progress.
-        </p>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-3xl font-bold mb-2">Student Dashboard</h2>
+          <p className="text-muted-foreground">Complete your work, ask questions, and track progress</p>
+        </div>
+        <div className="text-right">
+          <p className="text-4xl font-bold text-orange-400 flex items-center gap-2">
+            <Flame className="w-8 h-8" />
+            7
+          </p>
+          <p className="text-sm text-muted-foreground">Day Streak! 🔥</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {modules.map((module) => (
-          <Link
-            key={module.title}
-            href={module.href}
-            className="group block p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-transparent"
-          >
-            <div
-              className={`w-16 h-16 rounded-lg bg-gradient-to-r ${module.color} flex items-center justify-center text-4xl mb-4 group-hover:scale-110 transition-transform`}
-            >
-              {module.icon}
+      {/* Gamification Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {gamificationStats.map((stat, i) => (
+          <div key={i} className="relative rounded-xl border border-border p-1">
+            <GlowingEffect spread={25} glow={true} disabled={false} proximity={40} inactiveZone={0.1} borderWidth={2} />
+            <div className="relative bg-card rounded-lg p-4 flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-xl ${stat.bg} flex items-center justify-center ${stat.color}`}>
+                {stat.icon}
+              </div>
+              <div>
+                <p className="text-muted-foreground text-sm">{stat.label}</p>
+                <p className="text-2xl font-bold">{stat.value}</p>
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              {module.title}
-            </h3>
-            <p className="text-gray-600 text-sm">{module.description}</p>
-          </Link>
+          </div>
         ))}
       </div>
 
-      {/* Learning Streak */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-6 rounded-xl shadow-md text-white">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm mb-1 opacity-90">Learning Streak</p>
-              <p className="text-3xl font-bold">0 days</p>
-            </div>
-            <div className="text-4xl">🔥</div>
+      {/* Modules */}
+      <div>
+        <h3 className="text-xl font-semibold mb-6">Quick Actions</h3>
+        <div className="flex justify-center">
+          <GlassIcons items={glassItems} />
+        </div>
+      </div>
+
+      {/* Pending Work */}
+      <div className="relative rounded-2xl border border-border p-1">
+        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
+        <div className="relative bg-card rounded-xl p-6">
+          <h3 className="text-xl font-semibold mb-4">Pending Work</h3>
+          <div className="space-y-3">
+            {pendingWork.map((work, i) => (
+              <div key={i} className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                <div className="flex-1">
+                  <p className="font-medium">{work.subject}</p>
+                  <p className="text-sm text-muted-foreground">{work.type} • {work.questions} question(s)</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-orange-400">Due in {work.dueIn}</p>
+                </div>
+                <button className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 text-sm hover:bg-green-500/30 transition-colors">
+                  Start
+                </button>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm mb-1">Homework Completed</p>
-              <p className="text-3xl font-bold text-gray-800">0</p>
+      {/* AI Doubt Solver Preview */}
+      <div className="relative rounded-2xl border border-border p-1">
+        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
+        <div className="relative bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white">
+              <MessageCircle className="w-7 h-7" />
             </div>
-            <div className="text-4xl">✅</div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-600 text-sm mb-1">Total Points</p>
-              <p className="text-3xl font-bold text-gray-800">0</p>
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold">AI Doubt Solver</h3>
+              <p className="text-muted-foreground">Got questions? Ask our AI tutor anything from your syllabus!</p>
             </div>
-            <div className="text-4xl">⭐</div>
+            <button 
+              onClick={() => router.push('/student/ai-doubt-solver')}
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity"
+            >
+              Ask Now
+            </button>
           </div>
         </div>
       </div>

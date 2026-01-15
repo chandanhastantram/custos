@@ -1,66 +1,98 @@
-import Link from 'next/link';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import GlassIcons from '@/components/ui/glass-icons';
+import { GlowingEffect } from '@/components/ui/glowing-effect';
+import { Calendar, FileText, ClipboardList, BarChart3, Brain, Users } from 'lucide-react';
 
 export default function TeacherDashboard() {
+  const router = useRouter();
+
   const modules = [
-    {
-      title: 'Calendar',
-      description: 'View your schedule and timetable',
-      icon: '📅',
-      href: '/teacher/calendar',
-      color: 'from-purple-500 to-purple-600',
-    },
-    {
-      title: 'Lesson Plan',
-      description: 'Create and manage lesson plans',
-      icon: '📝',
-      href: '/teacher/lesson-plan',
-      color: 'from-blue-500 to-blue-600',
-    },
-    {
-      title: 'Work',
-      description: 'Manage daily, weekly, and lesson-wise work',
-      icon: '📚',
-      href: '/teacher/work',
-      color: 'from-green-500 to-green-600',
-    },
-    {
-      title: 'Reports',
-      description: 'View student performance and give feedback',
-      icon: '📊',
-      href: '/teacher/reports',
-      color: 'from-orange-500 to-orange-600',
-    },
+    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/teacher/calendar' },
+    { icon: <FileText className="w-6 h-6" />, color: 'blue', label: 'Lessons', href: '/teacher/lesson-plan' },
+    { icon: <ClipboardList className="w-6 h-6" />, color: 'green', label: 'Work', href: '/teacher/work' },
+    { icon: <BarChart3 className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/teacher/reports' },
+    { icon: <Brain className="w-6 h-6" />, color: 'pink', label: 'AI Tools', href: '/teacher/ai-tools' },
+    { icon: <Users className="w-6 h-6" />, color: 'indigo', label: 'Feedback', href: '/teacher/feedback' },
+  ];
+
+  const glassItems = modules.map(m => ({
+    ...m,
+    onClick: () => router.push(m.href)
+  }));
+
+  const todaysClasses = [
+    { time: '09:00 AM', subject: 'Mathematics', class: 'Class 10A', room: 'Room 101' },
+    { time: '10:30 AM', subject: 'Physics', class: 'Class 11B', room: 'Lab 3' },
+    { time: '01:00 PM', subject: 'Mathematics', class: 'Class 9A', room: 'Room 102' },
+    { time: '02:30 PM', subject: 'Physics', class: 'Class 10B', room: 'Lab 2' },
+  ];
+
+  const pendingWork = [
+    { type: 'Corrections', count: 15, subject: 'Math Worksheet' },
+    { type: 'Tests', count: 3, subject: 'Weekly Quiz' },
+    { type: 'Feedback', count: 8, subject: 'Student Reports' },
   ];
 
   return (
-    <div>
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">
-          Teacher Dashboard
-        </h2>
-        <p className="text-gray-600">
-          Plan lessons, manage assignments, and track student progress.
-        </p>
+    <div className="space-y-8">
+      {/* Header */}
+      <div>
+        <h2 className="text-3xl font-bold mb-2">Teacher Dashboard</h2>
+        <p className="text-muted-foreground">Plan lessons, manage work, and track student progress</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {modules.map((module) => (
-          <Link
-            key={module.title}
-            href={module.href}
-            className="group block p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-transparent"
-          >
-            <div
-              className={`w-16 h-16 rounded-lg bg-gradient-to-r ${module.color} flex items-center justify-center text-4xl mb-4 group-hover:scale-110 transition-transform`}
-            >
-              {module.icon}
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {pendingWork.map((item, i) => (
+          <div key={i} className="relative rounded-xl border border-border p-1">
+            <GlowingEffect spread={25} glow={true} disabled={false} proximity={40} inactiveZone={0.1} borderWidth={2} />
+            <div className="relative bg-card rounded-lg p-4 flex items-center justify-between">
+              <div>
+                <p className="text-muted-foreground text-sm">{item.type}</p>
+                <p className="text-2xl font-bold">{item.count}</p>
+                <p className="text-xs text-muted-foreground mt-1">{item.subject}</p>
+              </div>
+              <div className="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center text-orange-400">
+                <ClipboardList className="w-5 h-5" />
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              {module.title}
-            </h3>
-            <p className="text-gray-600 text-sm">{module.description}</p>
-          </Link>
+          </div>
         ))}
+      </div>
+
+      {/* Modules */}
+      <div>
+        <h3 className="text-xl font-semibold mb-6">Quick Actions</h3>
+        <div className="flex justify-center">
+          <GlassIcons items={glassItems} />
+        </div>
+      </div>
+
+      {/* Today's Schedule */}
+      <div className="relative rounded-2xl border border-border p-1">
+        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
+        <div className="relative bg-card rounded-xl p-6">
+          <h3 className="text-xl font-semibold mb-4">Today&apos;s Schedule</h3>
+          <div className="space-y-3">
+            {todaysClasses.map((cls, i) => (
+              <div key={i} className="flex items-center gap-4 p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
+                <div className="text-center min-w-[80px]">
+                  <p className="text-sm font-medium">{cls.time}</p>
+                </div>
+                <div className="h-10 w-px bg-border" />
+                <div className="flex-1">
+                  <p className="font-medium">{cls.subject}</p>
+                  <p className="text-sm text-muted-foreground">{cls.class} • {cls.room}</p>
+                </div>
+                <button className="px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 text-sm hover:bg-blue-500/30 transition-colors">
+                  Start Class
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
