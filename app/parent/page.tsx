@@ -3,13 +3,14 @@
 import { useRouter } from 'next/navigation';
 import GlassIcons from '@/components/ui/glass-icons';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Users, Calendar, BarChart3, MessageCircle, Bell, GraduationCap, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Users, Calendar, BarChart3, MessageCircle, Bell, GraduationCap, TrendingUp, AlertTriangle, Clock } from 'lucide-react';
 
 export default function ParentDashboard() {
   const router = useRouter();
 
   const modules = [
     { icon: <Users className="w-6 h-6" />, color: 'pink', label: 'Children', href: '/parent/children' },
+    { icon: <Clock className="w-6 h-6" />, color: 'yellow', label: 'Schedule', href: '/parent/schedule' },
     { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Calendar', href: '/parent/calendar' },
     { icon: <BarChart3 className="w-6 h-6" />, color: 'blue', label: 'Reports', href: '/parent/reports' },
     { icon: <MessageCircle className="w-6 h-6" />, color: 'green', label: 'Messages', href: '/parent/communication' },

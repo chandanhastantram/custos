@@ -9,7 +9,7 @@ export default function StudentDashboard() {
   const router = useRouter();
 
   const modules = [
-    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/student/calendar' },
+    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/student/schedule' },
     { icon: <ClipboardList className="w-6 h-6" />, color: 'blue', label: 'Daily Work', href: '/student/daily-work' },
     { icon: <MessageCircle className="w-6 h-6" />, color: 'green', label: 'AI Tutor', href: '/student/ai-doubt-solver' },
     { icon: <Trophy className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/student/reports' },
