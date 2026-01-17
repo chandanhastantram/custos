@@ -1,121 +1,132 @@
 'use client';
 
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Calendar, Clock, MapPin, Check, X, ChevronLeft, ChevronRight, BookOpen, Users } from 'lucide-react';
-import { useState } from 'react';
+import { Calendar, Clock, MapPin, ChevronLeft, ChevronRight, Loader2, Users } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+
+interface TimetableEntry {
+  _id: string;
+  day: string;
+  periodNumber: number;
+  startTime: string;
+  endTime: string;
+  subject: { _id: string; name: string } | string;
+  teacher: { _id: string; name: string } | string;
+  room?: string;
+  type: 'regular' | 'lab' | 'activity';
+}
+
+interface TimetableData {
+  _id: string;
+  name: string;
+  class: { _id: string; name: string };
+  section: string;
+  entries: TimetableEntry[];
+}
 
 export default function ParentSchedulePage() {
   const [selectedChild, setSelectedChild] = useState('Alice');
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(() => {
+    const dayIndex = new Date().getDay();
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[dayIndex] === 'Sunday' ? 'Monday' : days[dayIndex];
+  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [timetables, setTimetables] = useState<TimetableData[]>([]);
+  const [selectedTimetable, setSelectedTimetable] = useState<TimetableData | null>(null);
 
+  // Mock children data - in production this would come from user context
   const children = ['Alice', 'Bob'];
   const childInfo: Record<string, { class: string; rollNo: string }> = {
     'Alice': { class: '10A', rollNo: '15' },
     'Bob': { class: '7B', rollNo: '8' },
   };
 
-  // Generate week dates centered around selected date
-  const getWeekDates = () => {
-    const dates = [];
-    const startOfWeek = new Date(selectedDate);
-    startOfWeek.setDate(selectedDate.getDate() - selectedDate.getDay());
-    
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(startOfWeek);
-      date.setDate(startOfWeek.getDate() + i);
-      dates.push(date);
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  // Fetch timetables on mount
+  const fetchTimetables = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/timetables?isActive=true');
+      const data = await response.json();
+      
+      if (data.success && data.data.length > 0) {
+        setTimetables(data.data);
+        
+        // Fetch full timetable with entries for the first one
+        const timetableResponse = await fetch(`/api/timetables/${data.data[0]._id}`);
+        const timetableData = await timetableResponse.json();
+        
+        if (timetableData.success) {
+          setSelectedTimetable(timetableData.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching timetables:', error);
+    } finally {
+      setIsLoading(false);
     }
-    return dates;
+  }, []);
+
+  useEffect(() => {
+    fetchTimetables();
+  }, [fetchTimetables]);
+
+  // Get entries for selected day
+  const getDayEntries = (): TimetableEntry[] => {
+    if (!selectedTimetable?.entries) return [];
+    return selectedTimetable.entries
+      .filter(entry => entry.day === selectedDay)
+      .sort((a, b) => a.periodNumber - b.periodNumber);
   };
 
-  const weekDates = getWeekDates();
-  const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-  const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-
-  // Sample schedule data with attendance per child
-  const scheduleData: Record<string, Record<string, Array<{
-    subject: string;
-    code: string;
-    classSection: string;
-    startTime: string;
-    endTime: string;
-    room: string;
-    hour: number;
-    attended: boolean | null;
-  }>>> = {
-    'Alice': {
-      '2026-01-16': [
-        { subject: 'Mathematics', code: 'MATH-X', classSection: 'Class 10-A', startTime: '8:30 AM', endTime: '9:15 AM', room: 'Room 101', hour: 1, attended: true },
-        { subject: 'Physics', code: 'PHY-X', classSection: 'Class 10-A', startTime: '9:15 AM', endTime: '10:00 AM', room: 'Physics Lab', hour: 2, attended: true },
-        { subject: 'English Literature', code: 'ENG-X', classSection: 'Class 10-A', startTime: '10:15 AM', endTime: '11:00 AM', room: 'Room 101', hour: 3, attended: false },
-        { subject: 'Chemistry', code: 'CHEM-X', classSection: 'Class 10-A', startTime: '11:00 AM', endTime: '11:45 AM', room: 'Chem Lab', hour: 4, attended: true },
-        { subject: 'Computer Science', code: 'CS-X', classSection: 'Class 10-A', startTime: '12:30 PM', endTime: '1:15 PM', room: 'Comp Lab 1', hour: 5, attended: null },
-      ],
-    },
-    'Bob': {
-      '2026-01-16': [
-        { subject: 'General Science', code: 'SCI-VII', classSection: 'Class 7-B', startTime: '8:30 AM', endTime: '9:15 AM', room: 'Room 203', hour: 1, attended: true },
-        { subject: 'Mathematics', code: 'MATH-VII', classSection: 'Class 7-B', startTime: '9:15 AM', endTime: '10:00 AM', room: 'Room 203', hour: 2, attended: false },
-        { subject: 'Hindi', code: 'HIN-VII', classSection: 'Class 7-B', startTime: '10:15 AM', endTime: '11:00 AM', room: 'Room 203', hour: 3, attended: false },
-        { subject: 'Social Studies', code: 'SST-VII', classSection: 'Class 7-B', startTime: '11:00 AM', endTime: '11:45 AM', room: 'Room 204', hour: 4, attended: true },
-      ],
-    },
+  const getSubjectName = (entry: TimetableEntry): string => {
+    if (typeof entry.subject === 'object') return entry.subject.name;
+    return entry.subject;
   };
 
-  // Subject-wise attendance data per child
-  const subjectAttendanceData: Record<string, Array<{
-    subject: string;
-    code: string;
-    present: number;
-    total: number;
-    percentage: number;
-  }>> = {
-    'Alice': [
-      { subject: 'Mathematics', code: 'MATH-X', present: 18, total: 20, percentage: 90 },
-      { subject: 'Physics', code: 'PHY-X', present: 17, total: 20, percentage: 85 },
-      { subject: 'English Literature', code: 'ENG-X', present: 15, total: 20, percentage: 75 },
-      { subject: 'Chemistry', code: 'CHEM-X', present: 19, total: 20, percentage: 95 },
-      { subject: 'Computer Science', code: 'CS-X', present: 16, total: 18, percentage: 89 },
-    ],
-    'Bob': [
-      { subject: 'General Science', code: 'SCI-VII', present: 16, total: 20, percentage: 80 },
-      { subject: 'Mathematics', code: 'MATH-VII', present: 12, total: 20, percentage: 60 },
-      { subject: 'Hindi', code: 'HIN-VII', present: 15, total: 20, percentage: 75 },
-      { subject: 'Social Studies', code: 'SST-VII', present: 18, total: 20, percentage: 90 },
-    ],
+  const getTeacherName = (entry: TimetableEntry): string => {
+    if (typeof entry.teacher === 'object') return entry.teacher.name;
+    return entry.teacher;
   };
 
-  const formatDateKey = (date: Date) => {
-    return date.toISOString().split('T')[0];
-  };
-
-  const currentSchedule = scheduleData[selectedChild]?.[formatDateKey(selectedDate)] || [];
-  const subjectAttendance = subjectAttendanceData[selectedChild] || [];
-  const isToday = (date: Date) => formatDateKey(date) === formatDateKey(new Date());
-  const isSelected = (date: Date) => formatDateKey(date) === formatDateKey(selectedDate);
-
-  const navigateWeek = (direction: number) => {
-    const newDate = new Date(selectedDate);
-    newDate.setDate(selectedDate.getDate() + (direction * 7));
-    setSelectedDate(newDate);
-  };
-
-  const getSubjectColor = (index: number) => {
+  // Get subject color based on type
+  const getSubjectColor = (type: string, index: number) => {
+    if (type === 'lab') return 'from-green-500 to-emerald-500';
+    if (type === 'activity') return 'from-orange-500 to-amber-500';
+    
     const colors = [
-      'from-blue-500 to-cyan-500',
       'from-pink-500 to-rose-500',
-      'from-green-500 to-emerald-500',
+      'from-blue-500 to-cyan-500',
       'from-purple-500 to-violet-500',
-      'from-orange-500 to-amber-500',
-      'from-yellow-500 to-lime-500',
+      'from-indigo-500 to-blue-500',
+      'from-teal-500 to-cyan-500',
+      'from-yellow-500 to-orange-500',
     ];
     return colors[index % colors.length];
   };
 
-  // Calculate overall stats
-  const totalPresent = subjectAttendance.reduce((acc, s) => acc + s.present, 0);
-  const totalClasses = subjectAttendance.reduce((acc, s) => acc + s.total, 0);
-  const overallPercentage = totalClasses > 0 ? Math.round((totalPresent / totalClasses) * 100) : 0;
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
+  const currentDayIndex = days.indexOf(selectedDay);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
+        <span className="ml-2">Loading schedule...</span>
+      </div>
+    );
+  }
+
+  const dayEntries = getDayEntries();
 
   return (
     <div className="space-y-6">
@@ -126,7 +137,7 @@ export default function ParentSchedulePage() {
             <Calendar className="w-7 h-7" />
             Child&apos;s Schedule
           </h2>
-          <p className="text-muted-foreground">View your child&apos;s timetable and attendance</p>
+          <p className="text-muted-foreground">View your child&apos;s timetable</p>
         </div>
         
         <div className="flex items-center gap-2">
@@ -134,7 +145,7 @@ export default function ParentSchedulePage() {
           <select
             value={selectedChild}
             onChange={(e) => setSelectedChild(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-card border border-border focus:border-blue-500 focus:outline-none"
+            className="px-4 py-2 rounded-lg bg-card border border-border focus:border-pink-500 focus:outline-none"
           >
             {children.map(child => (
               <option key={child} value={child}>{child}</option>
@@ -156,124 +167,107 @@ export default function ParentSchedulePage() {
               {childInfo[selectedChild]?.class} • Roll No. {childInfo[selectedChild]?.rollNo}
             </p>
           </div>
-          <div className="ml-auto text-right">
-            <p className={`text-4xl font-bold ${overallPercentage >= 75 ? 'text-green-400' : 'text-red-400'}`}>
-              {overallPercentage}%
-            </p>
-            <p className="text-sm text-muted-foreground">Overall Attendance</p>
-          </div>
+          {selectedTimetable && (
+            <div className="ml-auto text-right">
+              <p className="text-lg font-semibold">{selectedTimetable.name}</p>
+              <p className="text-sm text-muted-foreground">Current Schedule</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Date Picker */}
+      {/* Day Selector */}
       <div className="relative rounded-2xl border border-border p-1">
         <GlowingEffect spread={30} glow={true} disabled={false} proximity={50} inactiveZone={0.1} borderWidth={2} />
         <div className="relative bg-card rounded-xl p-4">
           <div className="flex items-center justify-between mb-4">
             <button
-              onClick={() => navigateWeek(-1)}
+              onClick={() => setSelectedDay(days[(currentDayIndex - 1 + 6) % 6])}
               className="p-2 rounded-lg hover:bg-muted transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <span className="text-lg font-semibold">
-              {monthNames[selectedDate.getMonth()]} {selectedDate.getFullYear()}
-            </span>
+            <span className="text-lg font-semibold">{selectedDay}</span>
             <button
-              onClick={() => navigateWeek(1)}
+              onClick={() => setSelectedDay(days[(currentDayIndex + 1) % 6])}
               className="p-2 rounded-lg hover:bg-muted transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
           
-          <div className="grid grid-cols-7 gap-2">
-            {weekDates.map((date, i) => (
+          <div className="grid grid-cols-6 gap-2">
+            {days.map((day) => (
               <button
-                key={i}
-                onClick={() => setSelectedDate(date)}
+                key={day}
+                onClick={() => setSelectedDay(day)}
                 className={`flex flex-col items-center p-3 rounded-xl transition-all ${
-                  isSelected(date)
+                  selectedDay === day
                     ? 'bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-2 border-pink-500/50'
-                    : isToday(date)
-                      ? 'bg-muted/80 border border-border'
-                      : 'hover:bg-muted/50'
+                    : 'hover:bg-muted/50'
                 }`}
               >
-                <span className="text-xs text-muted-foreground">{monthNames[date.getMonth()]}</span>
-                <span className={`text-2xl font-bold ${isSelected(date) ? 'text-pink-400' : ''}`}>
-                  {date.getDate()}
+                <span className={`text-sm font-medium ${selectedDay === day ? 'text-pink-400' : ''}`}>
+                  {day.slice(0, 3)}
                 </span>
-                <span className="text-xs text-muted-foreground">{dayNames[date.getDay()]}</span>
               </button>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Events/Classes List */}
+      {/* Classes List */}
       <div className="relative rounded-2xl border border-border p-1">
         <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
         <div className="relative bg-card rounded-xl p-6">
-          <h3 className="text-xl font-semibold mb-4">{selectedChild}&apos;s Classes</h3>
+          <h3 className="text-xl font-semibold mb-4">{selectedChild}&apos;s {selectedDay} Classes</h3>
           
-          {currentSchedule.length === 0 ? (
+          {dayEntries.length === 0 ? (
             <div className="text-center py-12 text-muted-foreground">
               <Calendar className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No classes scheduled for this day</p>
+              <p>No classes scheduled for {selectedDay}</p>
+              {!selectedTimetable && (
+                <p className="text-sm mt-2">No timetable has been created yet.</p>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
-              {currentSchedule.map((event, i) => (
+              {dayEntries.map((entry, i) => (
                 <div
-                  key={i}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors group"
+                  key={entry._id || i}
+                  className="flex items-center gap-4 p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-colors"
                 >
-                  {/* Attendance Status Circle */}
-                  <div className="relative">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br ${getSubjectColor(i)}`}>
-                      {event.subject.charAt(0)}
-                    </div>
-                    {event.attended !== null && (
-                      <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center ${
-                        event.attended 
-                          ? 'bg-green-500 text-white' 
-                          : 'bg-red-500 text-white'
-                      }`}>
-                        {event.attended ? (
-                          <Check className="w-4 h-4" />
-                        ) : (
-                          <X className="w-4 h-4" />
-                        )}
-                      </div>
-                    )}
+                  {/* Period Number Circle */}
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold bg-gradient-to-br ${getSubjectColor(entry.type, i)}`}>
+                    P{entry.periodNumber}
                   </div>
 
-                  {/* Event Details */}
+                  {/* Class Details */}
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold truncate">{event.code} - {event.subject}</h4>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span className="px-2 py-0.5 rounded-full bg-muted text-xs">{event.classSection}</span>
-                    </div>
+                    <h4 className="font-semibold truncate">{getSubjectName(entry)}</h4>
+                    <p className="text-sm text-muted-foreground">{getTeacherName(entry)}</p>
                     <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <Clock className="w-4 h-4" />
-                        {event.startTime} - {event.endTime}
+                        {formatTime(entry.startTime)} - {formatTime(entry.endTime)}
                       </span>
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {event.room}
-                      </span>
+                      {entry.room && (
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-4 h-4" />
+                          {entry.room}
+                        </span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Hour Number */}
-                  <div className="text-right">
-                    <span className="text-muted-foreground">hour {event.hour}</span>
-                  </div>
-
-                  {/* Arrow indicator */}
-                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-white transition-colors" />
+                  {/* Type Badge */}
+                  <span className={`px-2 py-1 rounded-full text-xs ${
+                    entry.type === 'lab' ? 'bg-green-500/20 text-green-400' :
+                    entry.type === 'activity' ? 'bg-orange-500/20 text-orange-400' :
+                    'bg-pink-500/20 text-pink-400'
+                  }`}>
+                    {entry.type}
+                  </span>
                 </div>
               ))}
             </div>
@@ -281,84 +275,19 @@ export default function ParentSchedulePage() {
         </div>
       </div>
 
-      {/* Subject-wise Attendance */}
-      <div className="relative rounded-2xl border border-border p-1">
-        <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
-        <div className="relative bg-card rounded-xl p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <BookOpen className="w-6 h-6 text-pink-400" />
-            <h3 className="text-xl font-semibold">{selectedChild}&apos;s Subject-wise Attendance</h3>
-          </div>
-          
-          <div className="space-y-4">
-            {subjectAttendance.map((subject, i) => (
-              <div key={i} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{subject.subject}</p>
-                    <p className="text-xs text-muted-foreground">{subject.code} • {subject.present}/{subject.total} classes</p>
-                  </div>
-                  <span className={`text-lg font-bold ${
-                    subject.percentage >= 75 ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {subject.percentage}%
-                  </span>
-                </div>
-                <div className="h-2 bg-muted rounded-full overflow-hidden">
-                  <div
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      subject.percentage >= 75 
-                        ? 'bg-gradient-to-r from-green-500 to-emerald-400' 
-                        : 'bg-gradient-to-r from-red-500 to-orange-400'
-                    }`}
-                    style={{ width: `${subject.percentage}%` }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Overall Stats */}
-          <div className="mt-6 pt-6 border-t border-border">
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <p className={`text-2xl font-bold ${overallPercentage >= 75 ? 'text-green-400' : 'text-red-400'}`}>
-                  {overallPercentage}%
-                </p>
-                <p className="text-xs text-muted-foreground">Overall Attendance</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold">{totalPresent}</p>
-                <p className="text-xs text-muted-foreground">Classes Attended</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-red-400">{totalClasses - totalPresent}</p>
-                <p className="text-xs text-muted-foreground">Classes Missed</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Legend */}
-      <div className="flex flex-wrap gap-6 text-sm">
+      <div className="flex flex-wrap gap-4 text-sm">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
-            <Check className="w-4 h-4 text-white" />
-          </div>
-          <span>Present</span>
+          <div className="w-4 h-4 rounded bg-pink-500/20 border border-pink-500/50" />
+          <span>Regular Class</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
-            <X className="w-4 h-4 text-white" />
-          </div>
-          <span>Absent</span>
+          <div className="w-4 h-4 rounded bg-green-500/20 border border-green-500/50" />
+          <span>Lab/Practical</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
-            <Clock className="w-4 h-4 text-muted-foreground" />
-          </div>
-          <span>Upcoming</span>
+          <div className="w-4 h-4 rounded bg-orange-500/20 border border-orange-500/50" />
+          <span>Activity Period</span>
         </div>
       </div>
     </div>

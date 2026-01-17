@@ -10,6 +10,7 @@ export default function SubAdminDashboard() {
 
   const modules = [
     { icon: <Users className="w-6 h-6" />, color: 'blue', label: 'Manage', href: '/sub-admin/manage' },
+    { icon: <Clock className="w-6 h-6" />, color: 'cyan', label: 'Timetable', href: '/sub-admin/timetable' },
     { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Calendar', href: '/sub-admin/calendar' },
     { icon: <Megaphone className="w-6 h-6" />, color: 'orange', label: 'Posts', href: '/sub-admin/post' },
     { icon: <BookOpen className="w-6 h-6" />, color: 'green', label: 'Syllabus', href: '/sub-admin/syllabus' },
