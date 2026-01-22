@@ -60,6 +60,7 @@ export async function GET(req: NextRequest) {
     const stats = {
       totalIncome: summary.find(s => s._id === 'income')?.total || 0,
       totalExpense: summary.find(s => s._id === 'expense')?.total || 0,
+      balance: 0,
     };
     stats.balance = stats.totalIncome - stats.totalExpense;
 
