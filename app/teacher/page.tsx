@@ -3,18 +3,18 @@
 import { useRouter } from 'next/navigation';
 import GlassIcons from '@/components/ui/glass-icons';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Calendar, FileText, ClipboardList, BarChart3, Brain, Users } from 'lucide-react';
+import { Calendar, FileText, ClipboardList, BarChart3, Brain, Users, School, CheckCircle } from 'lucide-react';
 
 export default function TeacherDashboard() {
   const router = useRouter();
 
   const modules = [
-    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/teacher/calendar' },
-    { icon: <FileText className="w-6 h-6" />, color: 'blue', label: 'Lessons', href: '/teacher/lesson-plan' },
-    { icon: <ClipboardList className="w-6 h-6" />, color: 'green', label: 'Work', href: '/teacher/work' },
-    { icon: <BarChart3 className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/teacher/reports' },
-    { icon: <Brain className="w-6 h-6" />, color: 'pink', label: 'AI Tools', href: '/teacher/ai-tools' },
-    { icon: <Users className="w-6 h-6" />, color: 'indigo', label: 'Feedback', href: '/teacher/feedback' },
+    { icon: <Users className="w-6 h-6" />, color: 'blue', label: 'Students', href: '/teacher/students' },
+    { icon: <School className="w-6 h-6" />, color: 'purple', label: 'Classes', href: '/teacher/classes' },
+    { icon: <ClipboardList className="w-6 h-6" />, color: 'green', label: 'Assignments', href: '/teacher/assignments' },
+    { icon: <FileText className="w-6 h-6" />, color: 'pink', label: 'Tests', href: '/teacher/tests' },
+    { icon: <CheckCircle className="w-6 h-6" />, color: 'orange', label: 'Grading', href: '/teacher/grading' },
+    { icon: <Brain className="w-6 h-6" />, color: 'indigo', label: 'Lesson Plan', href: '/teacher/lesson-plan' },
   ];
 
   const glassItems = modules.map(m => ({

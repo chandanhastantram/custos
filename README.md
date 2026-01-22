@@ -9,7 +9,7 @@ A comprehensive school management system with five user roles, AI-powered featur
 - **Super Admin**: Complete system control, analytics, and user management
 - **Sub-Admin**: Daily operations management (limited permissions)
 - **Teacher**: Lesson planning, assignment management, and student tracking
-- **Student**: Homework completion, AI doubt solver, and progress tracking
+- **Student**: Homework completion, CUSTOS AI assistant, and progress tracking
 - **Parent**: Monitor children's performance and communicate with teachers
 
 ### Key Capabilities
@@ -17,7 +17,7 @@ A comprehensive school management system with five user roles, AI-powered featur
 - 🤖 AI-powered lesson plan generation
 - 📊 Adaptive question generation (60/40 weak/strong topic split)
 - 📈 Pattern analysis for student performance
-- 💬 Syllabus-bound AI doubt solver
+- 💬 CUSTOS AI - Intelligent educational assistant
 - 🎨 White-label theming per school
 - 📅 Calendar and timetable management
 - 📢 Announcements and communication system

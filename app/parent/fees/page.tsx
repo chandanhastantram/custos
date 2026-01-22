@@ -3,10 +3,14 @@
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 import { CreditCard, CheckCircle, Clock, Download, Receipt, IndianRupee, Users, AlertTriangle } from 'lucide-react';
 import { useState } from 'react';
+import { PaymentModal } from '@/components/PaymentModal';
+import { useSession } from 'next-auth/react';
 
 export default function ParentFeesPage() {
+  const { data: session } = useSession();
   const [selectedChild, setSelectedChild] = useState('Alice');
   const [selectedFees, setSelectedFees] = useState<string[]>([]);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const children = ['Alice', 'Bob'];
 
@@ -238,13 +242,34 @@ export default function ParentFeesPage() {
                 </button>
               </div>
 
-              <button className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold hover:opacity-90 transition-opacity">
+              <button 
+                onClick={() => setShowPaymentModal(true)}
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold hover:opacity-90 transition-opacity"
+              >
                 Pay ₹{totalSelectedAmount.toLocaleString()} Now
               </button>
             </div>
           )}
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && selectedFees.length > 0 && session?.user && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          studentId={selectedChild} // In real app, this would be the child's user ID
+          feeComponents={currentChild.pendingFees
+            .filter(f => selectedFees.includes(f.id))
+            .map(f => ({ type: f.type, amount: f.amount }))}
+          totalAmount={totalSelectedAmount}
+          onSuccess={(paymentData) => {
+            console.log('Payment successful:', paymentData);
+            // Refresh the page or update state
+            window.location.reload();
+          }}
+        />
+      )}
 
       {/* Payment History */}
       <div className="relative rounded-2xl border border-border p-1">

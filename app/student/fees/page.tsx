@@ -3,9 +3,13 @@
 import { GlowingEffect } from '@/components/ui/glowing-effect';
 import { CreditCard, CheckCircle, Clock, AlertCircle, Download, Receipt, IndianRupee } from 'lucide-react';
 import { useState } from 'react';
+import { PaymentModal } from '@/components/PaymentModal';
+import { useSession } from 'next-auth/react';
 
 export default function StudentFeesPage() {
+  const { data: session } = useSession();
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const feesSummary = {
     totalAnnual: 85000,
@@ -174,13 +178,36 @@ export default function StudentFeesPage() {
                 ))}
               </div>
 
-              <button className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold hover:opacity-90 transition-opacity">
-                Proceed to Pay
+              <button 
+                onClick={() => setShowPaymentModal(true)}
+                className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold hover:opacity-90 transition-opacity"
+              >
+                Proceed to Pay ₹{(selectedPayment === 'all' ? feesSummary.pending : pendingFees.find(f => f.id === selectedPayment)?.amount || 0).toLocaleString()}
               </button>
             </div>
           )}
         </div>
       </div>
+
+      {/* Payment Modal */}
+      {showPaymentModal && selectedPayment && session?.user && (
+        <PaymentModal
+          isOpen={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          studentId={session.user.id}
+          feeComponents={
+            selectedPayment === 'all'
+              ? pendingFees.map(f => ({ type: f.type, amount: f.amount, quarter: f.quarter }))
+              : [pendingFees.find(f => f.id === selectedPayment)!].map(f => ({ type: f.type, amount: f.amount, quarter: f.quarter }))
+          }
+          totalAmount={selectedPayment === 'all' ? feesSummary.pending : pendingFees.find(f => f.id === selectedPayment)?.amount || 0}
+          onSuccess={(paymentData) => {
+            console.log('Payment successful:', paymentData);
+            // Refresh the page or update state
+            window.location.reload();
+          }}
+        />
+      )}
 
       {/* Payment History */}
       <div className="relative rounded-2xl border border-border p-1">

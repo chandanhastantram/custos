@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import GlassIcons from '@/components/ui/glass-icons';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Calendar, ClipboardList, MessageCircle, Trophy, Flame, Star, CheckCircle } from 'lucide-react';
+import { Calendar, ClipboardList, MessageCircle, Trophy, Flame, Star, CheckCircle, Brain, Sparkles } from 'lucide-react';
 
 export default function StudentDashboard() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export default function StudentDashboard() {
   const modules = [
     { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/student/schedule' },
     { icon: <ClipboardList className="w-6 h-6" />, color: 'blue', label: 'Daily Work', href: '/student/daily-work' },
-    { icon: <MessageCircle className="w-6 h-6" />, color: 'green', label: 'AI Tutor', href: '/student/ai-doubt-solver' },
+    { icon: <Brain className="w-6 h-6" />, color: 'green', label: 'CUSTOS AI', href: '/student/doubt-solver' },
     { icon: <Trophy className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/student/reports' },
   ];
 
@@ -99,21 +99,24 @@ export default function StudentDashboard() {
         </div>
       </div>
 
-      {/* AI Doubt Solver Preview */}
+      {/* CUSTOS AI Preview */}
       <div className="relative rounded-2xl border border-border p-1">
         <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
-        <div className="relative bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-6">
+        <div className="relative bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white">
-              <MessageCircle className="w-7 h-7" />
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white">
+              <Brain className="w-7 h-7" />
             </div>
             <div className="flex-1">
-              <h3 className="text-xl font-semibold">AI Doubt Solver</h3>
-              <p className="text-muted-foreground">Got questions? Ask our AI tutor anything from your syllabus!</p>
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="text-xl font-semibold">CUSTOS AI</h3>
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+              </div>
+              <p className="text-muted-foreground">Got questions? Ask CUSTOS AI anything from your syllabus!</p>
             </div>
             <button 
-              onClick={() => router.push('/student/ai-doubt-solver')}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity"
+              onClick={() => router.push('/student/doubt-solver')}
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:opacity-90 transition-opacity"
             >
               Ask Now
             </button>

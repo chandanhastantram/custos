@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import GlassIcons from '@/components/ui/glass-icons';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Users, BookOpen, Calendar, Megaphone, BarChart3, Settings, GraduationCap, School, Clock } from 'lucide-react';
+import { Users, BookOpen, Calendar, Megaphone, BarChart3, Settings, GraduationCap, School, Clock, Wallet } from 'lucide-react';
 
 export default function SuperAdminDashboard() {
   const router = useRouter();
 
   const modules = [
     { icon: <Users className="w-6 h-6" />, color: 'blue', label: 'Users', href: '/super-admin/manage/users' },
+    { icon: <Wallet className="w-6 h-6" />, color: 'emerald', label: 'Money', href: '/super-admin/money' },
     { icon: <BookOpen className="w-6 h-6" />, color: 'purple', label: 'Syllabus', href: '/super-admin/manage/syllabus' },
     { icon: <Clock className="w-6 h-6" />, color: 'cyan', label: 'Timetable', href: '/super-admin/timetable' },
     { icon: <Calendar className="w-6 h-6" />, color: 'indigo', label: 'Calendar', href: '/super-admin/calendar' },
