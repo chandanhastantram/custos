@@ -1,14 +1,13 @@
-'use server';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
+import dbConnect from '@/lib/db';
 import User from '@/models/User';
 import { UserRole } from '@/types/enums';
 
 // GET teacher by register number
 export async function GET(request: NextRequest) {
   try {
-    await connectDB();
+    await dbConnect();
     
     const { searchParams } = new URL(request.url);
     const registerNumber = searchParams.get('registerNumber');

@@ -138,7 +138,7 @@ export function DistributionPieChart({
           innerRadius={60}
           dataKey={dataKey}
           nameKey={nameKey}
-          label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+          label={({ name, percent }: any) => `${name}: ${(percent * 100).toFixed(0)}%`}
           labelLine={false}
         >
           {data.map((_, index) => (
