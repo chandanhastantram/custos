@@ -19,7 +19,7 @@ export default function TeacherAIToolsPage() {
       name: 'Question Generator',
       description: 'Create MCQs, short answer, and theory questions automatically',
       icon: <MessageCircle className="w-8 h-8" />,
-      color: 'from-purple-500 to-pink-500',
+      color: 'from-blue-600 to-blue-500',
       href: '/teacher/ai-tools/questions'
     },
     {
@@ -75,9 +75,9 @@ export default function TeacherAIToolsPage() {
       {/* AI Info Banner */}
       <div className="relative rounded-xl border border-border p-1">
         <GlowingEffect spread={30} glow={true} disabled={false} proximity={50} inactiveZone={0.1} borderWidth={2} />
-        <div className="relative bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg p-6">
+        <div className="relative bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-lg p-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white">
               <Brain className="w-7 h-7" />
             </div>
             <div>

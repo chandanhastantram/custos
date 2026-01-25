@@ -1,25 +1,52 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import { TestType } from '@/types/enums';
 
+// Embedded question interface
+interface IEmbeddedQuestion {
+  questionText: string;
+  type: 'MCQ' | 'Theory';
+  topic?: string;
+  subTopic?: string;
+  difficulty?: string;
+  bloomsLevel?: string;
+  options?: string[];
+  correctAnswer?: string;
+  marks: number;
+  isAIGenerated?: boolean;
+}
+
 export interface ITest extends Document {
-  testType: TestType;
-  date: Date;
-  class: mongoose.Types.ObjectId;
-  subject: mongoose.Types.ObjectId;
   school: mongoose.Types.ObjectId;
+  title: string;
+  subject: string;
+  class: string;
+  section?: string;
+  teacher: mongoose.Types.ObjectId;
+  testType: TestType;
   
-  // Questions in this test
-  questions: mongoose.Types.ObjectId[];
+  // Embedded questions
+  questions: IEmbeddedQuestion[];
   
-  // Generation metadata for adaptive tests
-  generationMetadata?: {
-    weakTopics: string[]; // 60% focus
-    strongTopics: string[]; // 40% focus
-    basedOnSubmissions: mongoose.Types.ObjectId[]; // Previous test submissions analyzed
+  // Scores
+  totalMarks: number;
+  duration: number;
+  
+  // Scheduling
+  scheduledDate?: Date;
+  
+  // AI metadata
+  isAIGenerated: boolean;
+  aiMetadata?: {
+    weakTopics: string[];
+    strongTopics: string[];
+    distribution: {
+      weak: number;
+      strong: number;
+    };
   };
   
-  // For daily tests
-  relatedLessonDate?: Date;
+  // Status
+  isPublished: boolean;
   
   createdAt: Date;
   updatedAt: Date;
@@ -27,52 +54,82 @@ export interface ITest extends Document {
 
 const TestSchema = new Schema<ITest>(
   {
-    testType: {
-      type: String,
-      enum: Object.values(TestType),
-      required: true,
-    },
-    date: {
-      type: Date,
-      required: true,
-    },
-    class: {
-      type: Schema.Types.ObjectId,
-      ref: 'Class',
-      required: true,
-    },
-    subject: {
-      type: Schema.Types.ObjectId,
-      ref: 'Subject',
-      required: true,
-    },
     school: {
       type: Schema.Types.ObjectId,
       ref: 'School',
       required: true,
     },
+    title: {
+      type: String,
+      required: true,
+    },
+    subject: {
+      type: String,
+      required: true,
+    },
+    class: {
+      type: String,
+      required: true,
+    },
+    section: String,
+    teacher: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    testType: {
+      type: String,
+      enum: Object.values(TestType),
+      default: TestType.DAILY,
+    },
     questions: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Question',
+        questionText: { type: String, required: true },
+        type: { type: String, enum: ['MCQ', 'Theory'], default: 'MCQ' },
+        topic: String,
+        subTopic: String,
+        difficulty: String,
+        bloomsLevel: String,
+        options: [String],
+        correctAnswer: String,
+        marks: { type: Number, default: 1 },
+        isAIGenerated: { type: Boolean, default: false },
       },
     ],
-    generationMetadata: {
+    totalMarks: {
+      type: Number,
+      required: true,
+    },
+    duration: {
+      type: Number,
+      default: 45,
+    },
+    scheduledDate: Date,
+    isAIGenerated: {
+      type: Boolean,
+      default: false,
+    },
+    aiMetadata: {
       weakTopics: [String],
       strongTopics: [String],
-      basedOnSubmissions: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: 'Submission',
-        },
-      ],
+      distribution: {
+        weak: Number,
+        strong: Number,
+      },
     },
-    relatedLessonDate: Date,
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+// Indexes for performance
+TestSchema.index({ school: 1, class: 1, scheduledDate: -1 });
+TestSchema.index({ teacher: 1, createdAt: -1 });
 
 const Test: Model<ITest> =
   mongoose.models.Test || mongoose.model<ITest>('Test', TestSchema);

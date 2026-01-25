@@ -21,7 +21,10 @@ export default function SubAdminPostsPage() {
           </h2>
           <p className="text-muted-foreground">Create and manage announcements</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+        <button 
+          onClick={() => alert('➕ Create New Post\n\nSelect type: Announcement, Notice\nAdd title, content, and publish.')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+        >
           <Plus className="w-5 h-5" />
           Create Post
         </button>
@@ -48,8 +51,8 @@ export default function SubAdminPostsPage() {
                 }`}>
                   {post.status}
                 </span>
-                <button className="p-2 rounded hover:bg-background"><Edit2 className="w-4 h-4" /></button>
-                <button className="p-2 rounded hover:bg-background text-red-400"><Trash2 className="w-4 h-4" /></button>
+                <button onClick={() => alert(`✏️ Edit: "${post.title}"`)} className="p-2 rounded hover:bg-background"><Edit2 className="w-4 h-4" /></button>
+                <button onClick={() => confirm(`🗑️ Delete "${post.title}"?`) && alert('Deleted!')} className="p-2 rounded hover:bg-background text-red-400"><Trash2 className="w-4 h-4" /></button>
               </div>
             </div>
           ))}

@@ -24,7 +24,10 @@ export default function CalendarPage() {
           <h2 className="text-2xl font-bold">Calendar</h2>
           <p className="text-muted-foreground">Manage events, holidays, and schedules</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+        <button 
+          onClick={() => alert('📅 Add New Event\n\nForm to add:\n• Event title\n• Date and time\n• Event type (exam, meeting, holiday)\n• Description')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+        >
           <Plus className="w-5 h-5" />
           Add Event
         </button>
@@ -41,10 +44,16 @@ export default function CalendarPage() {
                 {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
               </h3>
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg hover:bg-muted transition-colors">
+                <button 
+                  onClick={() => alert('Navigate to previous month')}
+                  className="p-2 rounded-lg hover:bg-muted transition-colors"
+                >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
-                <button className="p-2 rounded-lg hover:bg-muted transition-colors">
+                <button 
+                  onClick={() => alert('Navigate to next month')}
+                  className="p-2 rounded-lg hover:bg-muted transition-colors"
+                >
                   <ChevronRight className="w-5 h-5" />
                 </button>
               </div>

@@ -54,7 +54,19 @@ export default function StudentFeesPage() {
           </h2>
           <p className="text-muted-foreground">View and pay your school fees</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors">
+        <button 
+          onClick={() => {
+            const csv = `Fee Statement\n\nSummary\nTotal Annual,₹${feesSummary.totalAnnual}\nPaid,₹${feesSummary.paid}\nPending,₹${feesSummary.pending}\nDue Date,${feesSummary.dueDate}\n\nPayment History\nID,Date,Type,Amount,Method\n${paymentHistory.map(p => `${p.id},${p.date},${p.type},₹${p.amount},${p.method}`).join('\n')}`;
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'fee_statement.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors"
+        >
           <Download className="w-5 h-5" />
           Download Statement
         </button>
@@ -248,7 +260,10 @@ export default function StudentFeesPage() {
                       </span>
                     </td>
                     <td className="p-3">
-                      <button className="p-2 rounded hover:bg-muted transition-colors">
+                      <button 
+                        onClick={() => alert(`🧾 Receipt for ${payment.id}\n\nDate: ${payment.date}\nType: ${payment.type}\nAmount: ₹${payment.amount.toLocaleString()}\nMethod: ${payment.method}\n\n✅ Payment Verified`)}
+                        className="p-2 rounded hover:bg-muted transition-colors"
+                      >
                         <Download className="w-4 h-4" />
                       </button>
                     </td>

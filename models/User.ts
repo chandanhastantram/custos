@@ -21,6 +21,7 @@ export interface IUser extends Document {
   children?: mongoose.Types.ObjectId[]; // References to Student users
   
   // Teacher-specific fields
+  registerNumber?: string; // Unique teacher ID e.g., "TCH001"
   subjects?: mongoose.Types.ObjectId[]; // Subjects they teach
   
   createdAt: Date;
@@ -80,6 +81,11 @@ const UserSchema = new Schema<IUser>(
       },
     ],
     // Teacher-specific
+    registerNumber: {
+      type: String,
+      trim: true,
+      sparse: true, // Allow null but ensure uniqueness when set
+    },
     subjects: [
       {
         type: Schema.Types.ObjectId,

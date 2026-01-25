@@ -89,7 +89,7 @@ export default function StudentProfilePage() {
         {/* Continue Button */}
         <button
           onClick={() => router.push('/student')}
-          className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:opacity-90 transition-opacity"
+          className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold hover:opacity-90 transition-opacity"
         >
           Continue to Dashboard
           <ArrowRight className="w-5 h-5" />

@@ -27,7 +27,19 @@ export default function TeacherReportsPage() {
           </h2>
           <p className="text-muted-foreground">View class performance and analytics</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted">
+        <button 
+          onClick={() => {
+            const csv = `Class Report\n\nClass,Avg Score,Attendance,Top Student\n${classStats.map(c => `${c.class},${c.avgScore}%,${c.attendance}%,${c.topStudent}`).join('\n')}\n\nRecent Tests\nTest,Class,Average,Highest,Lowest\n${recentTests.map(t => `${t.name},${t.class},${t.avgScore}%,${t.highest}%,${t.lowest}%`).join('\n')}`;
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'teacher_report.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted"
+        >
           <Download className="w-5 h-5" />
           Export Report
         </button>
@@ -59,7 +71,10 @@ export default function TeacherReportsPage() {
                   <span className="font-medium">{cls.topStudent}</span>
                 </div>
               </div>
-              <button className="w-full mt-4 py-2 rounded-lg bg-muted hover:bg-muted/80 text-sm">
+              <button 
+                onClick={() => alert(`📊 Class ${cls.class} Details\n\n👥 Total Students: 35\n📈 Average Score: ${cls.avgScore}%\n📅 Attendance: ${cls.attendance}%\n🏆 Top Student: ${cls.topStudent}\n\n📝 Recent Performance:\n• Math Quiz: 85%\n• Science Test: 78%\n• Mid-term: 82%`)}
+                className="w-full mt-4 py-2 rounded-lg bg-muted hover:bg-muted/80 text-sm"
+              >
                 View Details
               </button>
             </div>

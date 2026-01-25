@@ -91,9 +91,9 @@ export default function SuperAdminMoneyPage() {
     staff_salary: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
     building_maintenance: 'text-orange-400 bg-orange-500/10 border-orange-500/30',
     utilities: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30',
-    activities: 'text-purple-400 bg-purple-500/10 border-purple-500/30',
+    activities: 'text-blue-500 bg-blue-600/10 border-blue-600/30',
     supplies: 'text-green-400 bg-green-500/10 border-green-500/30',
-    equipment: 'text-pink-400 bg-pink-500/10 border-pink-500/30',
+    equipment: 'text-pink-400 bg-blue-500/10 border-blue-500/30',
   };
 
   // Calculate category-wise breakdown
@@ -121,7 +121,19 @@ export default function SuperAdminMoneyPage() {
             <Plus className="w-5 h-5" />
             Add Expense
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors">
+          <button 
+            onClick={() => {
+              const csv = `CUSTOS Financial Report\n\nSummary\nTotal Income,₹${stats.totalIncome}\nTotal Expense,₹${stats.totalExpense}\nNet Balance,₹${stats.balance}\n\nTransactions\nDate,Type,Category,Description,Amount\n${transactions.map(t => `${new Date(t.date).toLocaleDateString()},${t.type},${t.category},${t.description},₹${t.amount}`).join('\n')}`;
+              const blob = new Blob([csv], { type: 'text/csv' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `financial_report_${new Date().toISOString().split('T')[0]}.csv`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors"
+          >
             <Download className="w-5 h-5" />
             Export Report
           </button>

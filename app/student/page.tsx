@@ -3,16 +3,19 @@
 import { useRouter } from 'next/navigation';
 import GlassIcons from '@/components/ui/glass-icons';
 import { GlowingEffect } from '@/components/ui/glowing-effect';
-import { Calendar, ClipboardList, MessageCircle, Trophy, Flame, Star, CheckCircle, Brain, Sparkles } from 'lucide-react';
+import { Calendar, ClipboardList, MessageCircle, Trophy, Flame, Star, CheckCircle, Brain, Sparkles, BookOpen, Route, FileEdit } from 'lucide-react';
 
 export default function StudentDashboard() {
   const router = useRouter();
 
   const modules = [
-    { icon: <Calendar className="w-6 h-6" />, color: 'purple', label: 'Schedule', href: '/student/schedule' },
-    { icon: <ClipboardList className="w-6 h-6" />, color: 'blue', label: 'Daily Work', href: '/student/daily-work' },
+    { icon: <Calendar className="w-6 h-6" />, color: 'blue', label: 'Schedule', href: '/student/schedule' },
+    { icon: <ClipboardList className="w-6 h-6" />, color: 'cyan', label: 'Daily Work', href: '/student/daily-work' },
+    { icon: <FileEdit className="w-6 h-6" />, color: 'red', label: 'Online Exam', href: '/student/exam' },
     { icon: <Brain className="w-6 h-6" />, color: 'green', label: 'CUSTOS AI', href: '/student/doubt-solver' },
     { icon: <Trophy className="w-6 h-6" />, color: 'orange', label: 'Reports', href: '/student/reports' },
+    { icon: <BookOpen className="w-6 h-6" />, color: 'yellow', label: 'Flashcards', href: '/student/flashcards' },
+    { icon: <Route className="w-6 h-6" />, color: 'indigo', label: 'Study Path', href: '/student/study-path' },
   ];
 
   const glassItems = modules.map(m => ({
@@ -90,7 +93,10 @@ export default function StudentDashboard() {
                 <div className="text-right">
                   <p className="text-sm text-orange-400">Due in {work.dueIn}</p>
                 </div>
-                <button className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 text-sm hover:bg-green-500/30 transition-colors">
+                <button 
+                  onClick={() => router.push('/student/daily-work')}
+                  className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 text-sm hover:bg-green-500/30 transition-colors"
+                >
                   Start
                 </button>
               </div>
@@ -102,9 +108,9 @@ export default function StudentDashboard() {
       {/* CUSTOS AI Preview */}
       <div className="relative rounded-2xl border border-border p-1">
         <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
-        <div className="relative bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-xl p-6">
+        <div className="relative bg-gradient-to-r from-blue-600/10 to-blue-500/10 rounded-xl p-6">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 flex items-center justify-center text-white">
               <Brain className="w-7 h-7" />
             </div>
             <div className="flex-1">
@@ -116,7 +122,7 @@ export default function StudentDashboard() {
             </div>
             <button 
               onClick={() => router.push('/student/doubt-solver')}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:opacity-90 transition-opacity"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium hover:opacity-90 transition-opacity"
             >
               Ask Now
             </button>

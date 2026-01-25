@@ -7,11 +7,11 @@ import { Crown, Settings, GraduationCap, BookOpen, Users } from 'lucide-react';
 
 export default function HomePage() {
   const roles = [
-    { name: 'Super Admin', path: '/super-admin', icon: <Crown className="w-6 h-6" />, color: 'from-purple-500 to-purple-600', description: 'Full system control & analytics' },
+    { name: 'Super Admin', path: '/super-admin', icon: <Crown className="w-6 h-6" />, color: 'from-blue-600 to-blue-600', description: 'Full system control & analytics' },
     { name: 'Sub Admin', path: '/sub-admin', icon: <Settings className="w-6 h-6" />, color: 'from-blue-500 to-blue-600', description: 'Manage daily operations' },
     { name: 'Teacher', path: '/teacher', icon: <BookOpen className="w-6 h-6" />, color: 'from-green-500 to-green-600', description: 'Lessons, work & reports' },
     { name: 'Student', path: '/student', icon: <GraduationCap className="w-6 h-6" />, color: 'from-orange-500 to-orange-600', description: 'Learn, practice & grow' },
-    { name: 'Parent', path: '/parent', icon: <Users className="w-6 h-6" />, color: 'from-pink-500 to-pink-600', description: 'Track child progress' },
+    { name: 'Parent', path: '/parent', icon: <Users className="w-6 h-6" />, color: 'from-blue-500 to-cyan-600', description: 'Track child progress' },
   ];
 
   return (
@@ -19,7 +19,7 @@ export default function HomePage() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
             CUSTOS 1.0
           </h1>
           <ThemeToggle />

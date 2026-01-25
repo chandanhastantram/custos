@@ -5,7 +5,7 @@ export interface IPayment extends Document {
   student: mongoose.Types.ObjectId;
   paidBy: mongoose.Types.ObjectId;
   feeComponents: Array<{
-    type: string;
+    feeType: string;
     amount: number;
     quarter?: string;
   }>;
@@ -51,7 +51,7 @@ const PaymentSchema = new Schema<IPayment>(
     },
     feeComponents: [
       {
-        type: {
+        feeType: {
           type: String,
           required: true,
         },
@@ -128,10 +128,10 @@ PaymentSchema.index({ school: 1, student: 1, createdAt: -1 });
 PaymentSchema.index({ status: 1 });
 PaymentSchema.index({ 'razorpay.orderId': 1 });
 PaymentSchema.index({ 'razorpay.paymentId': 1 });
-PaymentSchema.index({ receiptNumber: 1 });
+// Note: receiptNumber already has unique: true in schema definition
 
 // Generate receipt number before saving
-PaymentSchema.pre('save', async function (next) {
+PaymentSchema.pre('save', async function () {
   if (!this.receiptNumber && this.status === 'completed') {
     const date = new Date();
     const year = date.getFullYear();
@@ -139,7 +139,6 @@ PaymentSchema.pre('save', async function (next) {
     const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
     this.receiptNumber = `RCP${year}${month}${random}`;
   }
-  next();
 });
 
 export default mongoose.models.Payment || mongoose.model<IPayment>('Payment', PaymentSchema);

@@ -97,9 +97,9 @@ export default function ParentSchedulePage() {
     if (type === 'activity') return 'from-orange-500 to-amber-500';
     
     const colors = [
-      'from-pink-500 to-rose-500',
+      'from-blue-500 to-rose-500',
       'from-blue-500 to-cyan-500',
-      'from-purple-500 to-violet-500',
+      'from-blue-600 to-violet-500',
       'from-indigo-500 to-blue-500',
       'from-teal-500 to-cyan-500',
       'from-yellow-500 to-orange-500',
@@ -120,7 +120,7 @@ export default function ParentSchedulePage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-pink-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
         <span className="ml-2">Loading schedule...</span>
       </div>
     );
@@ -145,7 +145,7 @@ export default function ParentSchedulePage() {
           <select
             value={selectedChild}
             onChange={(e) => setSelectedChild(e.target.value)}
-            className="px-4 py-2 rounded-lg bg-card border border-border focus:border-pink-500 focus:outline-none"
+            className="px-4 py-2 rounded-lg bg-card border border-border focus:border-blue-500 focus:outline-none"
           >
             {children.map(child => (
               <option key={child} value={child}>{child}</option>
@@ -158,7 +158,7 @@ export default function ParentSchedulePage() {
       <div className="relative rounded-xl border border-border p-1">
         <GlowingEffect spread={30} glow={true} disabled={false} proximity={50} inactiveZone={0.1} borderWidth={2} />
         <div className="relative bg-card rounded-lg p-6 flex items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold">
             {selectedChild.charAt(0)}
           </div>
           <div>
@@ -203,7 +203,7 @@ export default function ParentSchedulePage() {
                 onClick={() => setSelectedDay(day)}
                 className={`flex flex-col items-center p-3 rounded-xl transition-all ${
                   selectedDay === day
-                    ? 'bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-2 border-pink-500/50'
+                    ? 'bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500/50'
                     : 'hover:bg-muted/50'
                 }`}
               >
@@ -264,7 +264,7 @@ export default function ParentSchedulePage() {
                   <span className={`px-2 py-1 rounded-full text-xs ${
                     entry.type === 'lab' ? 'bg-green-500/20 text-green-400' :
                     entry.type === 'activity' ? 'bg-orange-500/20 text-orange-400' :
-                    'bg-pink-500/20 text-pink-400'
+                    'bg-blue-500/20 text-pink-400'
                   }`}>
                     {entry.type}
                   </span>
@@ -278,7 +278,7 @@ export default function ParentSchedulePage() {
       {/* Legend */}
       <div className="flex flex-wrap gap-4 text-sm">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-pink-500/20 border border-pink-500/50" />
+          <div className="w-4 h-4 rounded bg-blue-500/20 border border-blue-500/50" />
           <span>Regular Class</span>
         </div>
         <div className="flex items-center gap-2">

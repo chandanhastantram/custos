@@ -95,7 +95,7 @@ export default function AIQuestionsPage() {
               />
             </div>
 
-            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:opacity-90">
+            <button className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-medium hover:opacity-90">
               <Sparkles className="w-5 h-5" />
               Generate Questions
             </button>
@@ -111,7 +111,7 @@ export default function AIQuestionsPage() {
               {generatedQuestions.map((q, i) => (
                 <div key={i} className="p-4 rounded-lg bg-muted/50">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 rounded text-xs bg-purple-500/20 text-purple-400">{q.type}</span>
+                    <span className="px-2 py-0.5 rounded text-xs bg-blue-600/20 text-blue-500">{q.type}</span>
                     <span className="text-sm font-medium">Q{i + 1}</span>
                   </div>
                   <p className="mb-2">{q.q}</p>

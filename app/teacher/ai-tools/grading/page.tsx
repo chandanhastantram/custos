@@ -29,8 +29,8 @@ export default function AIGradingPage() {
       </div>
 
       {/* Info */}
-      <div className="relative rounded-xl border border-purple-500/30 p-1">
-        <div className="relative bg-purple-500/10 rounded-lg p-4">
+      <div className="relative rounded-xl border border-blue-600/30 p-1">
+        <div className="relative bg-blue-600/10 rounded-lg p-4">
           <p className="text-sm">
             AI will analyze student answers against the expected rubric and provide suggested scores with detailed feedback. You can review and adjust before finalizing.
           </p>
@@ -54,7 +54,7 @@ export default function AIGradingPage() {
                     <p className="text-sm text-muted-foreground">{sub.assignment} • {sub.submitted}</p>
                   </div>
                 </div>
-                <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30">
+                <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/20 text-blue-500 hover:bg-blue-600/30">
                   <Wand2 className="w-4 h-4" />
                   Grade with AI
                 </button>

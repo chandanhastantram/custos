@@ -12,7 +12,7 @@ export default function TeacherLayout({
       <DashboardHeader role="Teacher" />
       
       {/* Announcements Banner */}
-      <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-b border-border">
+      <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <p className="text-sm">
             <span className="font-medium text-blue-400">📢 Announcement:</span>{' '}

@@ -18,7 +18,7 @@ export default function ParentNotificationsPage() {
   const getIcon = (type: string) => {
     switch (type) {
       case 'alert': return <AlertTriangle className="w-5 h-5 text-red-400" />;
-      case 'event': return <Calendar className="w-5 h-5 text-purple-400" />;
+      case 'event': return <Calendar className="w-5 h-5 text-blue-500" />;
       case 'homework': return <FileText className="w-5 h-5 text-orange-400" />;
       default: return <Info className="w-5 h-5 text-blue-400" />;
     }
@@ -27,7 +27,7 @@ export default function ParentNotificationsPage() {
   const getBgColor = (type: string) => {
     switch (type) {
       case 'alert': return 'bg-red-500/20';
-      case 'event': return 'bg-purple-500/20';
+      case 'event': return 'bg-blue-600/20';
       case 'homework': return 'bg-orange-500/20';
       default: return 'bg-blue-500/20';
     }

@@ -66,14 +66,14 @@ export default function StudentDoubtSolverPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold flex items-center gap-3">
-            <Brain className="w-7 h-7 text-purple-400" />
+            <Brain className="w-7 h-7 text-blue-500" />
             CUSTOS AI - Doubt Solver
           </h2>
           <p className="text-muted-foreground">Ask me anything about your studies!</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30">
-          <Sparkles className="w-5 h-5 text-purple-400" />
-          <span className="text-sm font-medium text-purple-400">AI Powered</span>
+        <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/10 border border-blue-600/30">
+          <Sparkles className="w-5 h-5 text-blue-500" />
+          <span className="text-sm font-medium text-blue-500">AI Powered</span>
         </div>
       </div>
 
@@ -96,8 +96,8 @@ export default function StudentDoubtSolverPage() {
                 >
                   {message.role === 'ai' && (
                     <div className="flex items-center gap-2 mb-2">
-                      <Brain className="w-4 h-4 text-purple-400" />
-                      <span className="text-xs font-semibold text-purple-400">CUSTOS AI</span>
+                      <Brain className="w-4 h-4 text-blue-500" />
+                      <span className="text-xs font-semibold text-blue-500">CUSTOS AI</span>
                     </div>
                   )}
                   <p className="whitespace-pre-wrap">{message.content}</p>
@@ -109,13 +109,13 @@ export default function StudentDoubtSolverPage() {
               <div className="flex justify-start">
                 <div className="max-w-[80%] rounded-2xl p-4 bg-muted/50 border border-border">
                   <div className="flex items-center gap-2 mb-2">
-                    <Brain className="w-4 h-4 text-purple-400 animate-pulse" />
-                    <span className="text-xs font-semibold text-purple-400">CUSTOS AI</span>
+                    <Brain className="w-4 h-4 text-blue-500 animate-pulse" />
+                    <span className="text-xs font-semibold text-blue-500">CUSTOS AI</span>
                   </div>
                   <div className="flex gap-2">
-                    <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <div className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: '300ms' }} />
                   </div>
                 </div>
               </div>
@@ -134,13 +134,13 @@ export default function StudentDoubtSolverPage() {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="Ask me anything... (e.g., 'Who are you?' or 'How to solve quadratic equations?')"
-              className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border focus:border-purple-500 focus:outline-none"
+              className="flex-1 px-4 py-3 rounded-lg bg-muted border border-border focus:border-blue-600 focus:outline-none"
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading || !question.trim()}
-              className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               <Send className="w-5 h-5" />
               Ask

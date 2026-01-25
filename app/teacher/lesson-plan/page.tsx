@@ -45,7 +45,10 @@ export default function LessonPlanPage() {
           <h2 className="text-2xl font-bold">Lesson Plans</h2>
           <p className="text-muted-foreground">Create and manage AI-powered lesson plans</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:opacity-90 transition-opacity">
+        <button 
+          onClick={() => alert('🤖 AI Lesson Plan Generator\n\n1. Upload your syllabus PDF\n2. Select class and subject\n3. AI will generate daily lesson plans\n4. Review and customize')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:opacity-90 transition-opacity"
+        >
           <Sparkles className="w-5 h-5" />
           Generate with AI
         </button>
@@ -54,9 +57,9 @@ export default function LessonPlanPage() {
       {/* AI Generation Card */}
       <div className="relative rounded-2xl border border-border p-1">
         <GlowingEffect spread={40} glow={true} disabled={false} proximity={64} inactiveZone={0.01} borderWidth={2} />
-        <div className="relative bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-6">
+        <div className="relative bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-xl p-6">
           <div className="flex items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center">
               <Brain className="w-8 h-8 text-white" />
             </div>
             <div className="flex-1">
@@ -65,7 +68,10 @@ export default function LessonPlanPage() {
                 Upload your syllabus and let AI create detailed daily lesson plans with activities, visual aids, and assessments.
               </p>
             </div>
-            <button className="px-6 py-3 rounded-xl bg-card border border-border hover:bg-muted transition-colors">
+            <button 
+              onClick={() => alert('📄 Upload Syllabus\n\nDrag and drop or click to upload your syllabus PDF.')}
+              className="px-6 py-3 rounded-xl bg-card border border-border hover:bg-muted transition-colors"
+            >
               <Plus className="w-5 h-5" />
             </button>
           </div>
@@ -125,13 +131,16 @@ export default function LessonPlanPage() {
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full transition-all"
+                    className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all"
                     style={{ width: `${plan.progress}%` }}
                   />
                 </div>
               </div>
 
-              <button className="w-full mt-4 py-2 rounded-lg bg-muted hover:bg-muted/80 text-sm font-medium transition-colors">
+              <button 
+                onClick={() => alert(`📚 Lesson Plan: ${plan.chapter}\n\nSubject: ${plan.subject}\nClass: ${plan.class}\nStatus: ${plan.status}\nProgress: ${plan.progress}%\n\nDaily breakdown:\n• Day 1-2: Introduction\n• Day 3-4: Core concepts\n• Day 5-6: Practice\n• Day 7+: Assessment`)}
+                className="w-full mt-4 py-2 rounded-lg bg-muted hover:bg-muted/80 text-sm font-medium transition-colors"
+              >
                 View Details
               </button>
             </div>

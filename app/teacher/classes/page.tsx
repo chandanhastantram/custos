@@ -103,7 +103,7 @@ export default function ManageClassesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button 
               onClick={() => router.push('/teacher/assignments')}
-              className="p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-border hover:border-blue-500/50 transition-all text-left"
+              className="p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-blue-600/10 border border-border hover:border-blue-500/50 transition-all text-left"
             >
               <Plus className="w-6 h-6 text-blue-400 mb-2" />
               <p className="font-medium">Create Assignment</p>

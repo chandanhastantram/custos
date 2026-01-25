@@ -20,7 +20,7 @@ export default function TeacherProfilePage() {
   const todayStats = [
     { label: 'Classes Today', value: '4', icon: <BookOpen className="w-5 h-5" />, color: 'text-blue-400' },
     { label: 'Students', value: '120', icon: <Users className="w-5 h-5" />, color: 'text-green-400' },
-    { label: 'Hours', value: '6h', icon: <Clock className="w-5 h-5" />, color: 'text-purple-400' },
+    { label: 'Hours', value: '6h', icon: <Clock className="w-5 h-5" />, color: 'text-blue-500' },
   ];
 
   return (

@@ -7,6 +7,8 @@ import { useState } from 'react';
 export default function TeacherFeedbackPage() {
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
   const [feedback, setFeedback] = useState('');
+  const [rating, setRating] = useState(0);
+  const [sending, setSending] = useState(false);
 
   const students = [
     { name: 'Alice Johnson', class: '10A', lastFeedback: '2 days ago', performance: 'excellent' },
@@ -15,11 +17,11 @@ export default function TeacherFeedbackPage() {
     { name: 'Diana Prince', class: '9A', lastFeedback: 'Never', performance: 'good' },
   ];
 
-  const recentFeedback = [
+  const [recentFeedbackList, setRecentFeedbackList] = useState([
     { student: 'Alice Johnson', message: 'Great improvement in problem-solving skills!', date: 'Jan 13' },
     { student: 'Bob Smith', message: 'Needs to focus more on chapter exercises', date: 'Jan 8' },
     { student: 'Charlie Brown', message: 'Good participation in class discussions', date: 'Jan 12' },
-  ];
+  ]);
 
   const getPerformanceColor = (perf: string) => {
     switch (perf) {
@@ -28,6 +30,29 @@ export default function TeacherFeedbackPage() {
       case 'needs-improvement': return 'bg-orange-500/20 text-orange-400';
       default: return 'bg-muted text-muted-foreground';
     }
+  };
+
+  const handleSendFeedback = async () => {
+    if (!selectedStudent || !feedback.trim()) {
+      alert('Please select a student and write feedback');
+      return;
+    }
+    
+    setSending(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Add to recent feedback
+    setRecentFeedbackList(prev => [
+      { student: selectedStudent, message: feedback, date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) },
+      ...prev.slice(0, 4)
+    ]);
+    
+    alert(`✅ Feedback sent to ${selectedStudent}!\n\n⭐ Rating: ${rating}/5\n\n💬 Message: ${feedback}`);
+    setFeedback('');
+    setRating(0);
+    setSending(false);
   };
 
   return (
@@ -57,7 +82,7 @@ export default function TeacherFeedbackPage() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white font-medium">
                       {student.name.charAt(0)}
                     </div>
                     <div className="flex-1">
@@ -81,7 +106,7 @@ export default function TeacherFeedbackPage() {
             {selectedStudent ? (
               <>
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white text-xl font-bold">
                     {selectedStudent.charAt(0)}
                   </div>
                   <div>
@@ -95,8 +120,12 @@ export default function TeacherFeedbackPage() {
                     <label className="block text-sm font-medium mb-2">Performance Rating</label>
                     <div className="flex gap-2">
                       {[1, 2, 3, 4, 5].map(star => (
-                        <button key={star} className="p-2 hover:bg-muted rounded-lg">
-                          <Star className="w-6 h-6 text-yellow-400" />
+                        <button 
+                          key={star} 
+                          onClick={() => setRating(star)}
+                          className="p-2 hover:bg-muted rounded-lg transition-colors"
+                        >
+                          <Star className={`w-6 h-6 ${star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground'}`} />
                         </button>
                       ))}
                     </div>
@@ -113,9 +142,13 @@ export default function TeacherFeedbackPage() {
                     />
                   </div>
 
-                  <button className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90">
+                  <button 
+                    onClick={handleSendFeedback}
+                    disabled={sending || !feedback.trim()}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
                     <Send className="w-5 h-5" />
-                    Send Feedback
+                    {sending ? 'Sending...' : 'Send Feedback'}
                   </button>
                 </div>
               </>
@@ -140,7 +173,7 @@ export default function TeacherFeedbackPage() {
             Recent Feedback Sent
           </h3>
           <div className="space-y-3">
-            {recentFeedback.map((item, i) => (
+            {recentFeedbackList.map((item, i) => (
               <div key={i} className="p-4 rounded-lg bg-muted/50">
                 <div className="flex items-center justify-between mb-2">
                   <p className="font-medium">{item.student}</p>

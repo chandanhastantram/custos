@@ -80,7 +80,7 @@ export default function SyllabusPage() {
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
                     style={{ width: `${subject.completion}%` }}
                   />
                 </div>

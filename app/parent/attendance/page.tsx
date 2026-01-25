@@ -71,7 +71,7 @@ export default function ParentAttendancePage() {
       <div className="relative rounded-xl border border-border p-1">
         <GlowingEffect spread={30} glow={true} disabled={false} proximity={50} inactiveZone={0.1} borderWidth={2} />
         <div className="relative bg-card rounded-lg p-6 flex items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold">
             {selectedChild.charAt(0)}
           </div>
           <div>

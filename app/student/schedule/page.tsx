@@ -89,8 +89,8 @@ export default function StudentSchedulePage() {
     
     const colors = [
       'from-blue-500 to-cyan-500',
-      'from-purple-500 to-violet-500',
-      'from-pink-500 to-rose-500',
+      'from-blue-600 to-violet-500',
+      'from-blue-500 to-rose-500',
       'from-indigo-500 to-blue-500',
       'from-teal-500 to-cyan-500',
       'from-yellow-500 to-orange-500',
@@ -170,7 +170,7 @@ export default function StudentSchedulePage() {
                 onClick={() => setSelectedDay(day)}
                 className={`flex flex-col items-center p-3 rounded-xl transition-all ${
                   selectedDay === day
-                    ? 'bg-gradient-to-br from-blue-500/20 to-purple-500/20 border-2 border-blue-500/50'
+                    ? 'bg-gradient-to-br from-blue-500/20 to-blue-600/20 border-2 border-blue-500/50'
                     : 'hover:bg-muted/50'
                 }`}
               >

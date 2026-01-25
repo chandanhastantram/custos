@@ -63,7 +63,7 @@ export default function ParentChildrenPage() {
               {/* Child Header */}
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold">
                     {child.name.charAt(0)}
                   </div>
                   <div>
@@ -97,7 +97,7 @@ export default function ParentChildrenPage() {
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"
                         style={{ width: `${subj.progress}%` }}
                       />
                     </div>
@@ -139,7 +139,7 @@ export default function ParentChildrenPage() {
                   <BarChart3 className="w-4 h-4" />
                   Full Report
                 </button>
-                <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 transition-colors">
+                <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600/20 text-blue-500 hover:bg-blue-600/30 transition-colors">
                   <MessageCircle className="w-4 h-4" />
                   Message Teacher
                 </button>

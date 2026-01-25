@@ -39,7 +39,10 @@ export default function ManageUsersPage() {
           <h2 className="text-2xl font-bold">Manage Users</h2>
           <p className="text-muted-foreground">Add, edit, and manage all users in the system</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors">
+        <button 
+          onClick={() => alert('➕ Add User\n\nThis feature will open a form to add:\n• Students\n• Teachers\n• Parents\n• Sub-Admins\n\nThe form includes role selection, personal details, and login credentials.')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+        >
           <UserPlus className="w-5 h-5" />
           Add User
         </button>
@@ -55,7 +58,10 @@ export default function ManageUsersPage() {
             className="w-full pl-10 pr-4 py-2 rounded-lg bg-card border border-border focus:border-blue-500 focus:outline-none transition-colors"
           />
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors">
+        <button 
+          onClick={() => alert('🔍 Filter Options\n\n• By Role: Student, Teacher, Parent, Admin\n• By Status: Active, Inactive\n• By Class: 1-12\n• By Date Joined')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors"
+        >
           <Filter className="w-5 h-5" />
           Filter
         </button>
@@ -97,7 +103,7 @@ export default function ManageUsersPage() {
                 <tr key={i} className="border-t border-border hover:bg-muted/30 transition-colors">
                   <td className="p-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white font-medium">
                         {user.name.charAt(0)}
                       </div>
                       <div>
@@ -123,7 +129,10 @@ export default function ManageUsersPage() {
                     </span>
                   </td>
                   <td className="p-4">
-                    <button className="p-2 rounded-lg hover:bg-muted transition-colors">
+                    <button 
+                      onClick={() => alert(`👤 ${user.name}\n\nEmail: ${user.email}\nRole: ${user.role}\nClass/Subject: ${user.class}\nStatus: ${user.status}\n\nActions:\n• Edit Profile\n• Reset Password\n• Change Status\n• Delete User`)}
+                      className="p-2 rounded-lg hover:bg-muted transition-colors"
+                    >
                       <MoreVertical className="w-5 h-5" />
                     </button>
                   </td>

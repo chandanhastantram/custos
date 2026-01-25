@@ -149,7 +149,7 @@ export default function TeacherSchedulePage() {
                         slot.subject === 'Free Period' 
                           ? 'bg-muted/30 border border-dashed border-border' 
                           : slot.subject.includes('Meeting') || slot.subject.includes('Lab')
-                            ? 'bg-purple-500/10 border border-purple-500/30'
+                            ? 'bg-blue-600/10 border border-blue-600/30'
                             : 'bg-blue-500/10 border border-blue-500/30'
                       }`}
                     >
@@ -183,7 +183,7 @@ export default function TeacherSchedulePage() {
           <span>Regular Class</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 rounded bg-purple-500/20 border border-purple-500/50" />
+          <div className="w-4 h-4 rounded bg-blue-600/20 border border-blue-600/50" />
           <span>Lab/Meeting</span>
         </div>
         <div className="flex items-center gap-2">

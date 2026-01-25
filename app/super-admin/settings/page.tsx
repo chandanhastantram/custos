@@ -47,7 +47,7 @@ export default function SettingsPage() {
               <div>
                 <label className="block text-sm font-medium mb-2">School Logo</label>
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold">
+                  <div className="w-16 h-16 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white text-2xl font-bold">
                     DS
                   </div>
                   <button className="px-4 py-2 rounded-lg border border-border hover:bg-muted transition-colors">
@@ -175,7 +175,7 @@ export default function SettingsPage() {
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <button className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition-opacity">
+        <button className="flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:opacity-90 transition-opacity">
           <Save className="w-5 h-5" />
           Save Changes
         </button>

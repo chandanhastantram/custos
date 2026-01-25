@@ -23,7 +23,10 @@ export default function SubAdminCalendarPage() {
           <h2 className="text-2xl font-bold">Calendar</h2>
           <p className="text-muted-foreground">View and manage school events</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+        <button 
+          onClick={() => alert('📅 Add New Event\n\nEvent title, date, time, type.')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+        >
           <Plus className="w-5 h-5" />
           Add Event
         </button>
@@ -39,8 +42,8 @@ export default function SubAdminCalendarPage() {
                 {currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
               </h3>
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg hover:bg-muted"><ChevronLeft className="w-5 h-5" /></button>
-                <button className="p-2 rounded-lg hover:bg-muted"><ChevronRight className="w-5 h-5" /></button>
+                <button onClick={() => alert('Previous month')} className="p-2 rounded-lg hover:bg-muted"><ChevronLeft className="w-5 h-5" /></button>
+                <button onClick={() => alert('Next month')} className="p-2 rounded-lg hover:bg-muted"><ChevronRight className="w-5 h-5" /></button>
               </div>
             </div>
 

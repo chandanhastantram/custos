@@ -30,7 +30,10 @@ export default function TeacherWorkPage() {
           </h2>
           <p className="text-muted-foreground">Assign and manage student work</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600">
+        <button 
+          onClick={() => alert('➕ Create Assignment\n\nThis will open a form to:\n• Set assignment title\n• Select class and subject\n• Add instructions\n• Set due date')}
+          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+        >
           <Plus className="w-5 h-5" />
           Create Assignment
         </button>
@@ -116,7 +119,10 @@ export default function TeacherWorkPage() {
                 <div className="text-center">
                   <p className="text-sm text-muted-foreground">Due: {assignment.due}</p>
                 </div>
-                <button className="px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30">
+                <button 
+                  onClick={() => alert(`📋 Assignment: ${assignment.title}\n\nClass: ${assignment.class}\nSubject: ${assignment.subject}\nDue: ${assignment.due}\nSubmissions: ${assignment.submitted}/${assignment.total}`)}
+                  className="px-4 py-2 rounded-lg bg-blue-500/20 text-blue-400 hover:bg-blue-500/30"
+                >
                   View
                 </button>
               </div>
@@ -137,7 +143,10 @@ export default function TeacherWorkPage() {
                   <p className="font-medium">{item.student}</p>
                   <p className="text-sm text-muted-foreground">{item.assignment} • {item.submittedAt}</p>
                 </div>
-                <button className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30">
+                <button 
+                  onClick={() => alert(`📝 Grade Submission\n\nStudent: ${item.student}\nAssignment: ${item.assignment}\nSubmitted: ${item.submittedAt}\n\n✏️ Grade form will open here`)}
+                  className="px-4 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30"
+                >
                   Grade
                 </button>
               </div>
